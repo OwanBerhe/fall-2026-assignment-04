@@ -1,0 +1,61 @@
+erDiagram
+    USERS ||--o| BORROWERS : "has profile"
+    BORROWERS ||--o{ LOANS : "borrows"
+    BOOKS ||--o{ LOANS : "lent in"
+    BOOKS ||--o{ BOOK_AUTHORS : "has"
+    AUTHORS ||--o{ BOOK_AUTHORS : "writes"
+    BOOKS ||--o{ BOOK_GENRES : "has"
+    GENRES ||--o{ BOOK_GENRES : "categorizes"
+
+    USERS {
+        int id PK
+        string email UK
+        string name
+        timestamp created_at
+    }
+
+    BORROWERS {
+        int id PK
+        int user_id FK, UK
+        string phone
+    }
+
+    BOOKS {
+        int id PK
+        string isbn UK
+        string title
+        int publication_year
+    }
+
+    AUTHORS {
+        int id PK
+        string name
+        string bio
+    }
+
+    GENRES {
+        int id PK
+        string name UK
+        string description
+    }
+
+    BOOK_AUTHORS {
+        int id PK
+        int book_id FK
+        int author_id FK
+    }
+
+    BOOK_GENRES {
+        int id PK
+        int book_id FK
+        int genre_id FK
+    }
+
+    LOANS {
+        int id PK
+        int borrower_id FK "on delete cascade"
+        int book_id FK
+        timestamp loan_date
+        timestamp due_date
+        timestamp returned_at "null means still on loan"
+    }
